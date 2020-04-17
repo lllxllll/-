@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background: #666666;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        #binner{
+            width: 400px;
+            height: 320px;
+            overflow: hidden;
+            margin: 50px auto;
+            border: 3px solid black;
+            position: relative;
+        }
+        #binner #bigimage{
+            width: 2000px;
+            height: 320px;
+        }
+        #binner #bigimage li{
+            float: left;
+        }
+        #binner #iconlist{
+            position: absolute;
+            right: 20px;
+            bottom: 10px;
+        }
+        #binner #iconlist li{
+            float: left;
+            width: 25px;
+            height: 25px;
+            border: 1px solid white;
+            text-align: center;
+            line-height: 25px;
+            border-radius: 13px;
+            margin-left: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        #binner #bigimage #pre{
+            width: 60px;
+            height: 60px;
+            background: url(./image/btn.gif) no-repeat;
+            position: absolute;
+            top: 130px;
+            left: 10px;
+            z-index: 3001;
+            /*filter:alpha(opacity:0);*/
+            /*opacity:0;*/
+            cursor: pointer;
+        }
+        #binner #bigimage #next{
+            width: 60px;
+            height: 60px;
+            background: url(./image/btn.gif) no-repeat 0-60px;
+            position: absolute;
+            top: 130px;
+            right: 10px;
+            /*z-index: 3001;*/
+            /*filter:alpha(opacity:0);*/
+            /*opacity:0;*/
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="binner">
+    <ul id="bigimage">
+
+        <div id="pre"></div>
+        <div id="next"></div>
+
+        <li><a href=""><img src="./image/1.jpg" alt=""></a></li>
+        <li><a href=""><img src="./image/2.jpg" alt=""></a></li>
+        <li><a href=""><img src="./image/3.jpg" alt=""></a></li>
+        <li><a href=""><img src="./image/4.jpg" alt=""></a></li>
+        <li><a href=""><img src="./image/1.jpg" alt=""></a></li>
+
+    </ul>
+    <ul id="iconlist">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+</div>
+<script>
+    var oBtnPre=document.getElementById('pre');
+    var oBtnNext=document.getElementById('next');
+    var oBigimage=document.getElementById('bigimage');
+    var left=0;
+    var timer;
+
+    timer=setInterval(function () {
+        left-=10;
+        oBigimage.style.marginLeft=left+"px";
+    },10)
+</script>
+</body>
+</html>
