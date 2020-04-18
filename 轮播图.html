@@ -16,24 +16,27 @@
         #binner{
             width: 400px;
             height: 320px;
-            overflow: hidden;
             margin: 50px auto;
             border: 3px solid black;
             position: relative;
         }
         #binner #bigimage{
-            width: 2000px;
+            width: 400px;
             height: 320px;
+            position: relative;
         }
-        #binner #bigimage li{
-            float: left;
+        #binner #bigimage .item{
+            position: absolute;
+            /*opacity: 0;*/
+            /*transition: all .5s;*/
         }
         #binner #iconlist{
             position: absolute;
             right: 20px;
             bottom: 10px;
+            z-index: 100000;
         }
-        #binner #iconlist li{
+        #iconlist li{
             float: left;
             width: 25px;
             height: 25px;
@@ -46,64 +49,125 @@
             cursor: pointer;
         }
 
-        #binner #bigimage #pre{
+         #pre{
             width: 60px;
             height: 60px;
             background: url(./image/btn.gif) no-repeat;
             position: absolute;
             top: 130px;
             left: 10px;
-            z-index: 3001;
-            /*filter:alpha(opacity:0);*/
-            /*opacity:0;*/
             cursor: pointer;
+             z-index: 100;
         }
-        #binner #bigimage #next{
+        #next{
             width: 60px;
             height: 60px;
             background: url(./image/btn.gif) no-repeat 0-60px;
             position: absolute;
             top: 130px;
             right: 10px;
-            /*z-index: 3001;*/
-            /*filter:alpha(opacity:0);*/
-            /*opacity:0;*/
             cursor: pointer;
+            z-index: 100;
+        }
+        .item.active{
+            z-index:10;
+            /*opacity: 1;*/
+        }
+        .point.active{
+            background-color:red;
+
         }
     </style>
 </head>
 <body>
 <div id="binner">
+    <div class="btn" id="pre"></div>
+    <div class="btn" id="next"></div>
     <ul id="bigimage">
-
-        <div id="pre"></div>
-        <div id="next"></div>
-
-        <li><a href=""><img src="./image/1.jpg" alt=""></a></li>
-        <li><a href=""><img src="./image/2.jpg" alt=""></a></li>
-        <li><a href=""><img src="./image/3.jpg" alt=""></a></li>
-        <li><a href=""><img src="./image/4.jpg" alt=""></a></li>
-        <li><a href=""><img src="./image/1.jpg" alt=""></a></li>
-
+        <li class="item active"><a href=""><img src="./image/1.jpg" alt=""></a></li>
+        <li class="item"><a href=""><img src="./image/2.jpg" alt=""></a></li>
+        <li class="item"><a href=""><img src="./image/3.jpg" alt=""></a></li>
+        <li class="item"><a href=""><img src="./image/4.jpg" alt=""></a></li>
+        <li class="item"><a href=""><img src="./image/5.jpg" alt=""></a></li>
     </ul>
     <ul id="iconlist">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
+        <li class="point active" data-index="0">1</li>
+        <li class="point" data-index="1">2</li>
+        <li class="point" data-index="2">3</li>
+        <li class="point" data-index="3">4</li>
+        <li class="point" data-index="4">5</li>
     </ul>
 </div>
 <script>
-    var oBtnPre=document.getElementById('pre');
-    var oBtnNext=document.getElementById('next');
-    var oBigimage=document.getElementById('bigimage');
-    var left=0;
-    var timer;
+    var btnPre=document.getElementById('pre');
+    var btnNext=document.getElementById('next');
+    var items=document.getElementsByClassName('item');
+    var points=document.getElementsByClassName('point');
 
-    timer=setInterval(function () {
-        left-=10;
-        oBigimage.style.marginLeft=left+"px";
-    },10)
+    var index=0;
+    var time=0
+
+    var clearActive=function () {
+        for (var i=0;i<items.length;i++){
+            items[i].className="item";
+        };
+        for (var i=0;i<points.length;i++){
+            points[i].className="point"
+        }
+    }
+
+    var goIndex=function (index) {
+        clearActive();
+        items[index].className="item active";
+        points[index].className="point active"
+    }
+
+    var goNext=function () {
+        if (index<4){
+            index++;
+        }
+        else{
+            index=0;
+        }
+        goIndex(index);
+    }
+
+    var goPre=function(){
+        if (index==0){
+            index=4;
+        }
+        else{
+            index--;
+        }
+        goIndex(index);
+    }
+
+    btnNext.onclick=function () {
+        goNext();
+    }
+    btnPre.onclick=function () {
+        goPre();
+    }
+
+    for (var i=0;i<points.length;i++){
+
+        points[i].onclick=function () {
+            var pointIndex=this.getAttribute('data-index');
+            goIndex(pointIndex);
+            time=0;
+        }
+    }
+
+    setInterval(function () {
+        time++;
+        if (time==20) {
+            goNext();
+            time=0;
+        }
+    },100)
+
+
+
 </script>
 </body>
 </html>
